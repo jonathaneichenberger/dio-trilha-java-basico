@@ -2,7 +2,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ListaTarefas {
-    Set<Tarefa> tarefasList;
+    private Set<Tarefa> tarefasList;
 
     public ListaTarefas() {
         tarefasList = new HashSet<>();
@@ -16,7 +16,7 @@ public class ListaTarefas {
         Tarefa tarefaRemover = null;
         if(!tarefasList.isEmpty()) {
             for(Tarefa tarefa : tarefasList) {
-                if(tarefa.getDescricao().equals(descricao)) {
+                if(tarefa.getDescricao().equalsIgnoreCase(descricao)) {
                     tarefaRemover = tarefa;
                     break;
                 }
@@ -25,10 +25,19 @@ public class ListaTarefas {
         } else {
             System.out.println("A lista está vazia!");
         }
+
+        if(tarefaRemover == null) {
+            System.out.println("Tarefa não encontrada!");
+        }
     }
 
     public void exibirTarefas() {
-        System.out.println(tarefasList);
+        if(!tarefasList.isEmpty()) {
+            System.out.println(tarefasList);
+        } else {
+            System.out.println("Tarefa não encontrada!");
+        }
+
     }
 
     public int contarTarefas() {
@@ -43,12 +52,7 @@ public class ListaTarefas {
                     tarefasConcluidas.add(tarefa);
                 }
             }
-            if(!tarefasConcluidas.isEmpty()) {
-                return tarefasConcluidas;
-            } else {
-                System.out.println("Você ainda não tem nenhuma tarefa concluída!");
-                return null;
-            }
+            return tarefasConcluidas;
         } else {
             System.out.println("A lista está vazia!");
             return null;
@@ -63,12 +67,7 @@ public class ListaTarefas {
                     tarefasPendentes.add(tarefa);
                 }
             }
-            if (!tarefasPendentes.isEmpty()) {
-                return tarefasPendentes;
-            } else {
-                System.out.println("Você não tem nenhuma tarefa Pendente!");
-                return null;
-            }
+            return tarefasPendentes;
         } else {
             System.out.println("A lista está vazia!");
             return null;
@@ -78,25 +77,38 @@ public class ListaTarefas {
     public void marcarTarefaConcluida(String descricao) {
         if(!tarefasList.isEmpty()) {
             for(Tarefa t: tarefasList) {
-                if(t.getDescricao().equals(descricao)) {
+                if(t.getDescricao().equalsIgnoreCase(descricao)) {
                     t.setTarefaConcluida(true);
+                    break;
                 }
             }
         }
     }
 
     public void marcarTarefaPendente(String descricao) {
+        Tarefa tarefaPendente = null;
         if(!tarefasList.isEmpty()) {
             for(Tarefa t: tarefasList) {
-                if(t.getDescricao().equals(descricao)) {
-                    t.setTarefaConcluida(false);
+                if(t.getDescricao().equalsIgnoreCase(descricao)) {
+                    tarefaPendente = t;
                 }
             }
+        }
+        if(tarefaPendente != null) {
+            if(tarefaPendente.isTarefaConcluida()) {
+                tarefaPendente.setTarefaConcluida(false);
+            }
+        } else {
+            System.out.println("Tarefa não encontrada na lista.");
         }
     }
 
     public void limparListaTarefas(){
-        tarefasList.clear();
+        if(!tarefasList.isEmpty()) {
+            tarefasList.clear();
+        } else {
+            System.out.println("A lista já está vazia!");
+        }
     }
 
     public static void main(String[] args) {
