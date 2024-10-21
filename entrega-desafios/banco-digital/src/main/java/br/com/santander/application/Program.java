@@ -45,6 +45,30 @@ public class Program {
         banco4.exibirInformacoes();
         banco5.exibirInformacoes();
 
+        System.out.println(banco2.encontrarCliente("Amanda Costa"));
+        ccjonathan.depositar(1000);
+        ccFelipe.depositar(100);
+        ccJulia.depositar(300);
+        ccCarlos.depositar(50);
+        ccAna.depositar(10);
+        cpLucas.depositar(600);
+        cpEduardo.depositar(200);
+        cpBeatriz.depositar(400);
+        cpThiago.depositar(6700);
+        cpAmanda.depositar(500);
+
+
+        banco1.imprimirExtrato(ccjonathan);
+        banco3.imprimirExtrato(ccFelipe);
+        ccjonathan.transferir(500,ccFelipe);
+        banco1.imprimirExtrato(ccjonathan);
+        banco3.imprimirExtrato(ccFelipe);
+
+        System.out.println(banco1.encontrarCliente("Jonathan"));
+        System.out.println(banco1.encontrarConta(ccjonathan.getNumeroConta()));
+        banco2.removerConta(cpCarla);
+        System.out.println("--- Contas Banco2 com depósito ---");
+        banco2.getContas().stream().filter(p -> p.getSaldo() > 0d).forEach(System.out::println);
     }
 
 }

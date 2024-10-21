@@ -4,11 +4,12 @@ import br.com.santander.entities.Cliente;
 import br.com.santander.models.Conta;
 
 public interface IBanco {
-    public void adicionarCliente(Cliente cliente);
-    public void removerCliente(Cliente cliente);
-    public Cliente encontrarCliente(String nome);
-    public void adicionarConta(Conta conta);
-    public void removerConta(Conta conta);
-    public Conta encontrarConta(int numeroConta);
-    public void exibirInformacoes();
+    void adicionarCliente(Cliente cliente);
+    boolean removerCliente(Cliente cliente); // Agora retorna booleano
+    Cliente encontrarCliente(String nome);
+    void adicionarConta(Conta conta);
+    boolean removerConta(Conta conta); // Agora retorna booleano
+    Conta encontrarConta(int numeroConta);
+    void exibirInformacoes();
+    void imprimirExtrato(Conta conta);
 }

@@ -2,13 +2,14 @@ package br.com.santander.models;
 
 import br.com.santander.entities.Cliente;
 import lombok.Data;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Data
 public abstract class Banco {
-    protected String nome;
+    protected String nomeBanco;
     protected Agencia agencia;
     protected String cnpj;
     protected String endereco;
@@ -16,16 +17,16 @@ public abstract class Banco {
     protected List<Cliente> clientes;
     protected List<Conta> contas;
 
-    protected Banco(String nome, String cnpj, String endereco, String numeroTelefone) {
-        this.nome = nome;
+    public Banco() {}
+
+    protected Banco(String nomeBanco, String cnpj, String endereco, String numeroTelefone) {
+        this.nomeBanco = nomeBanco;
         this.agencia = new Agencia();
         this.cnpj = cnpj;
         this.endereco = endereco;
         this.numeroTelefone = numeroTelefone;
         this.clientes = new ArrayList<>();
         this.contas = new ArrayList<>();
-
-
     }
 
     public void adicionarCliente(Cliente cliente) {
@@ -36,17 +37,14 @@ public abstract class Banco {
         }
     }
 
-    public void removerCliente(Cliente cliente) {
-        if(!clientes.isEmpty()) {
-            for(Cliente c : clientes) {
-                if (c.equals(cliente)) {
-                    clientes.remove(c);
-                }
-            }
+    public boolean removerCliente(Cliente cliente) {
+        if (!clientes.isEmpty() && clientes.contains(cliente)) {
+            clientes.remove(cliente);
+            return true;
         } else {
-            System.out.println("Não existe clientes cadastrados");
+            System.out.println("Cliente não encontrado");
+            return false;
         }
-
     }
 
     public Cliente encontrarCliente(String nome) {
@@ -66,8 +64,19 @@ public abstract class Banco {
         contas.add(conta);
     }
 
-    public void removerConta(Conta conta) {
-        contas.remove(conta);
+    public boolean removerConta(Conta conta) {
+        if (contas.contains(conta) && conta.getSaldo() > 0) {
+            System.out.println("Você tem um valor de R$ " + conta.getSaldo() + " e deve sacar-lo antes de encerrar a conta");
+        } else if (contas.contains(conta) && conta.getSaldo() < 0){
+            System.out.println("Seu saldo atual está NEGATIVO no valor de R$ " + conta.getSaldo() + " deposite valores superiores á dívida para encerrar a conta");
+        } else if (contas.contains(conta) && conta.getSaldo() == 0) {
+            System.out.println("Conta encerrada com sucesso");
+            contas.remove(conta);
+            return true;
+        } else {
+            System.out.println("Conta não encontrada");
+        }
+        return false;
     }
 
     public Conta encontrarConta(int numeroConta) {
@@ -80,15 +89,21 @@ public abstract class Banco {
     }
 
     public void exibirInformacoes() {
-
         System.out.println("----------- BANCO ----------- ");
-        System.out.println(nome + "\nAgência: " + agencia);
+        System.out.println(nomeBanco + "\nAgência: " + agencia);
         System.out.println("----------- CONTAS ----------- ");
         for (int i = 0; i < clientes.size(); i++) {
             System.out.println("Titular: " + clientes.get(i).getNome());
-            System.out.println("Tipo de conta: " + contas.get(i).getConta());
+            System.out.println("Tipo de conta: " + contas.get(i).tipoConta);
             System.out.println("Número da conta: " + contas.get(i).getNumeroConta());
+            System.out.println("Saldo: R$ " + contas.get(i).getSaldo());
         }
         System.out.println("=============================\n");
+    }
+
+    public void imprimirExtrato(Conta conta) {
+        System.out.println("--------- EXTRATO ---------");
+        System.out.println("Titular: " + conta.getNomeCliente());
+        System.out.println("Saldo em " + LocalDate.now() + ": R$" + conta.getSaldo());
     }
 }

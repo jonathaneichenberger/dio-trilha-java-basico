@@ -1,6 +1,5 @@
 package br.com.santander.entities;
 
-
 import br.com.santander.models.Banco;
 
 public class Santander extends Banco {
