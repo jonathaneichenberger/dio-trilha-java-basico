@@ -1,13 +1,15 @@
-package me.dio.desafio_design_patterns_spring;
+package me.dio;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
+@EnableFeignClients
 @SpringBootApplication
-public class DesafioDesignPatternsSpringApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DesafioDesignPatternsSpringApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }

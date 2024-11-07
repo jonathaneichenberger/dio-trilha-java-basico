@@ -1,4 +1,4 @@
-package me.dio.desafio_design_patterns_spring;
+package me.dio;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
